@@ -15,7 +15,7 @@ describe('app routes', () => {
   
       await client.connect();
       const signInData = await fakeRequest(app)
-        .post('/auth/signup')
+        .post('/auth/signin')
         .send({
           email: 'jon@user.com',
           password: '1234'
@@ -28,31 +28,44 @@ describe('app routes', () => {
       return client.end(done);
     });
 
-    test('returns animals', async() => {
+    test('returns todos', async() => {
 
       const expectation = [
         {
-          'id': 1,
-          'name': 'bessie',
-          'cool_factor': 3,
-          'owner_id': 1
+          id: 1,
+          todo: 'wash the desert tortoise',
+          completed: false,
+          owner_id: 2
         },
         {
-          'id': 2,
-          'name': 'jumpy',
-          'cool_factor': 4,
-          'owner_id': 1
+          id: 2,
+          todo: 'wash the double doodle',
+          completed: false,
+          owner_id: 2
         },
         {
-          'id': 3,
-          'name': 'spot',
-          'cool_factor': 10,
-          'owner_id': 1
+          id: 3,
+          todo: 'wash the donkey',
+          completed: false,
+          owner_id: 2
+        },
+        {
+          id: 4,
+          todo: 'wash the dolphin',
+          completed: false,
+          owner_id: 2
+        },
+        {
+          id: 5,
+          todo: 'wash the dung beetle',
+          completed: false,
+          owner_id: 2
         }
-      ];
+        ];
 
       const data = await fakeRequest(app)
-        .get('/animals')
+        .get('/api/todos')
+        .set('Authorization', token)
         .expect('Content-Type', /json/)
         .expect(200);
 
